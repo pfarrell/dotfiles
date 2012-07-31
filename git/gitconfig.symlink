@@ -1,0 +1,37 @@
+[user]
+	name = Pat Farrell
+	email = pfarrell@et.local
+[color]
+	branch = true
+	diff = true
+	interactive = true
+	pager = true
+	status = true
+[core]
+	filemode = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+	hideDotFiles = dotGitOnly
+	autocrlf = false
+	excludesfile = c:/Users/pfarrell/.gitglobalignore
+	editor = \"C:/Program Files (x86)/GitExtensions/GitExtensions.exe\" fileeditor
+[gitflow "branch"]
+	master = release
+	develop = develop
+[gitflow "prefix"]
+	feature = feature-
+	release = release-
+	hotfix = hotfix-
+	support = support-
+	versiontag = 
+[mergetool]
+	keepBackup = false
+[merge]
+	tool = kdiff3
+[mergetool "kdiff3"]
+	path = c:/Program Files (x86)/KDiff3/kdiff3.exe
+[diff]
+	guitool = kdiff3
+[difftool "kdiff3"]
+	path = c:/Program Files (x86)/KDiff3/kdiff3.exe

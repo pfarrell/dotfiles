@@ -1,0 +1,28 @@
+set nocompatible
+set number
+set autoindent
+set smartindent
+set tabstop=2
+set shiftwidth=2
+set showmatch
+set vb t_vb=
+set ruler
+set incsearch
+set virtualedit=all
+set background=dark
+syntax on
+set expandtab
+set ignorecase
+set nowrap
+set wildmode=list:longest,full
+set wildmenu
+set number
+nnoremap <F5> :buffers<CR>:buffer<Space>
+
+"ruby
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+"improve autocomplete menu color
+highlight Pmenu ctermbg=238 gui=bold
