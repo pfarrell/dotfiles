@@ -100,3 +100,5 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 export PATH=$PATH:/usr/local/lib/node:/usr/local/mysql/bin
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
