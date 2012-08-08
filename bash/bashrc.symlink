@@ -32,6 +32,7 @@ fi
 case "$TERM" in
     xterm-color) color_prompt=yes;;
     screen) color_prompt=yes;;
+    xterm) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -101,4 +102,5 @@ fi
 
 export PATH=$PATH:/usr/local/lib/node:/usr/local/mysql/bin
 
+export CYGWIN=nodosfilewarning
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
