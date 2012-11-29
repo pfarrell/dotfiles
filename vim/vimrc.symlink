@@ -9,7 +9,7 @@ set vb t_vb=
 set ruler
 set incsearch
 set virtualedit=all
-set background=dark
+"set background=dark
 syntax on
 set expandtab
 set ignorecase
