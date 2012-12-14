@@ -14,3 +14,9 @@
 	ignorecase = true
 	hideDotFiles = dotGitOnly
 	autocrlf = false
+[diff]
+  tool = opendiff
+[difftool]
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path = 
+
