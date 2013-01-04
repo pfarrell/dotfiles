@@ -1,1 +1,1 @@
-alias gg='git grep'
+alias gg='git grep --color'
