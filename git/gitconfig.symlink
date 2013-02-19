@@ -20,3 +20,5 @@
   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
   path = 
 
+[github]
+	user = pfarrell
