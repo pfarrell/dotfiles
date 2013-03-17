@@ -7,7 +7,10 @@ It is modular enough that you can pick and choose what you want.  My main toolse
 * AWS
 * vim
 * todo.txt
+* Ruby
+* Hadoop
 
+Although, this should be in motion, as reflected by the dirs in the repo... which is the whole point, after all :).
 # idea
 This project manages all of your resource and environment files to split into directories with files that contain what you need to build the env for that particular tool/env.
 
