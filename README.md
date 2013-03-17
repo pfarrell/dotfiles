@@ -15,7 +15,11 @@ The benefit is, all your environments are under source control and are split int
 
 Key files
 
-*rc.symlink
+| File | Description|
+|---|---|
+|\*rc.symlink|Generate .\*rc files in your home directory.  For instance bash_profile.symlink will cause a symlink to be created in ~/.bash_profile -> [dotfiles location]/bash/bash_profile.symlink|
+|env.sh|Contain things |
+|private_env.sh|Contain things you don't want checked into source control (like passwords or api keys) but which are part of your local environment
 
 # install
 Install with __rake install__.  
