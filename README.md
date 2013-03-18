@@ -14,7 +14,7 @@ It is modular enough that you can pick and choose what you want.  My main toolse
 
 Although, this should be in motion, as reflected by the dirs in the repo... which is the whole point, after all :).
 # idea
-This project manages all of your resource and environment files to split into directories with files that contain what you need to build the env for that particular tool/env.
+This project manages all of your resource and environment files.  Projects (of your choosing) store their files in directories.  For instance, check out the vim directory.  It contains my .vimrc and .vim directory.
 
 The benefit is, all your environments are under source control and are split into modular deploys.  Adding a new environment is as simple as adding a new directory and putting the appropriate files in there.
 
@@ -29,3 +29,7 @@ Key files
 # install
 Install with __rake install__.  
 This will cause the various .*rc files in your home directory to become symlinks to the respective *symlink files in each directory
+
+New evn.sh and private_env.sh files will be sourced the next time you create a term or login.  *.symlink files will be picked up by a 
+> rake install
+You will not destroy anything by re-running this command.  Also, the rake command shouldn't overwrite any existing files in your home dir without your interactive approval.
