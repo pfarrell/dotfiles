@@ -14,6 +14,7 @@
 	ignorecase = true
 	hideDotFiles = dotGitOnly
 	autocrlf = false
+	excludesfile = /Users/pfarrell/.gitignore_global
 [diff]
   tool = opendiff
 [difftool]
@@ -22,3 +23,9 @@
 
 [github]
 	user = pfarrell
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
