@@ -25,15 +25,3 @@ alias ports="sudo lsof -i -P | grep -i 'listen'"
 
 export RAILS_ENV=production
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
-
-rvm use ruby-1.9.3-p194
-
-function local_gems() {
-    export LOCAL_GEMS=/Users/pfarrell/proj/gems
-      echo "LOCAL_GEMS = " $LOCAL_GEMS
-}
-
-function git_gems() {
-    unset LOCAL_GEMS
-      echo "LOCAL_GEMS = " $LOCAL_GEMS
-}
