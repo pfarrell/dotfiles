@@ -18,6 +18,7 @@ set wildmode=list:longest,full
 set wildmenu
 set number
 
+
 " Store swap files in fixed location, not current directory.
 set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 
@@ -54,6 +55,9 @@ endfunction
 let g:gist_clip_command = 'pbcopy'
 let g:gist_open_browser_after_post = 1
 let g:gist_detect_filetype = 1
+
+"bash command aliases
+let $BASH_ENV = "~/.bash_aliases"
 
 "pathogen
 call pathogen#infect()

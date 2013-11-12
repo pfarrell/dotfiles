@@ -107,3 +107,8 @@ else \
   # @2 - Prompt when not in GIT repo
   echo " '$Yellow$PathShort$Color_Off'\$ "; \
 fi)'
+
+# Allow base aliases to be readable by vim
+# http://stackoverflow.com/questions/8841116/vim-not-recognizing-aliases-when-in-interactive-mode
+shopt -s expand_aliases
+alias be='bundle exec'
