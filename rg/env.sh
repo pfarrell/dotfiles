@@ -23,5 +23,4 @@ alias ports="sudo lsof -i -P | grep -i 'listen'"
 #alias m='bundle exec thor '
 #alias bcap='bundle exec cap '
 
-export RAILS_ENV=production
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
