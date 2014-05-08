@@ -12,6 +12,7 @@ HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 HISTSIZE=1000000
 HISTFILESIZE=$HISTSIZE
 HISTCONTROL=ignoredups:erasedups
+HISTTIMEFORMAT='%F %T '
 
 history() {
   _bash_history_sync
