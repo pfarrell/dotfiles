@@ -23,6 +23,7 @@ set number
 set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 
 nnoremap <F5> :buffers<CR>:buffer<Space>
+map <F2> :%w !pbcopy<CR><CR>
 
 "ruby
 autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
@@ -33,22 +34,22 @@ autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 "improve autocomplete menu color
 highlight Pmenu ctermbg=238 gui=bold
 
-"NERDTree
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
-autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-
-  " Close all open buffers on entering a window if the only
-  " buffer that's left is the NERDTree buffer
-function! s:CloseIfOnlyNerdTreeLeft()
-  if exists("t:NERDTreeBufName")
-    if bufwinnr(t:NERDTreeBufName) != -1
-      if winnr("$") == 1
-        q
-      endif
-    endif
-  endif
-endfunction
+""NERDTree
+"autocmd VimEnter * NERDTree
+"autocmd VimEnter * wincmd p
+"autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+"
+"  " Close all open buffers on entering a window if the only
+"  " buffer that's left is the NERDTree buffer
+"function! s:CloseIfOnlyNerdTreeLeft()
+"  if exists("t:NERDTreeBufName")
+"    if bufwinnr(t:NERDTreeBufName) != -1
+"      if winnr("$") == 1
+"        q
+"      endif
+"    endif
+"  endif
+"endfunction
 
 "vim-gist
 "Mac
