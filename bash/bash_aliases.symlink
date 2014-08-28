@@ -5,9 +5,6 @@
 #  Bunch-o-predefined colors.  Makes reading code easier than escape sequences.
 #  I don't remember where I found this.  o_O
 
-gp=/Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.sh
-source $gp
-
 # Reset
 Color_Off="\[\033[0m\]"       # Text Reset
 
