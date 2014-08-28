@@ -2,7 +2,7 @@ dotfiles
 ========
 The point is to avoid a monolithic .bashrc file.
 
-Based off [Zach Holman's dotfiles](https://github.com/holman/dotfiles). This dotfiles implementation is built for a Bash environment on OSX (haven't modified to handle Linux (yet) or Cygwin (i hope never!)).
+Based off [Zach Holman's dotfiles](https://github.com/holman/dotfiles). This dotfiles implementation is built for a Bash environment on OSX, works pretty well on Linux (Ubuntu), and hasn't been tested on Cygwin (i hope never!)).
 
 It is modular enough that you can pick and choose what you want.  My main toolset is around
 
