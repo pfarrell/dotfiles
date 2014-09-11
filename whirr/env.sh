@@ -1,8 +1,0 @@
-#! /usr/bin/env sh
-
-export WHIRR_PROVIDER=aws-ec2
-export WHIRR_IDENTITY=$AWS_ACCESS_KEY_ID
-export WHIRR_CREDENTIAL=$AWS_SECRET_ACCESS_KEY
-
-export WHIRR_HOME=$HOME/opt/whirr
-export PATH=$PATH:$WHIRR_HOME/bin
