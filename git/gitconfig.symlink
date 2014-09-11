@@ -1,6 +1,6 @@
 [user]
-	name = Pat Farrell
-	email = pfarrell@ulive.com
+	name = Patrick Farrell
+	email = pfarrell@prosper.com
 [color]
 	branch = true
 	diff = true
@@ -14,7 +14,7 @@
 	ignorecase = true
 	hideDotFiles = dotGitOnly
 	autocrlf = false
-	excludesfile = /Users/pfarrell/.gitignore_global
+	excludesfile = /Users/patrickfarrell/.gitignore_global
 [diff]
   tool = opendiff
 [difftool]
@@ -29,3 +29,14 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[push]
+	default = simple
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  pr = pull --rebase
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  type = cat-file -t
+  dump = cat-file -p
