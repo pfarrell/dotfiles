@@ -127,3 +127,4 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 alias notes="open http://localhost:4567"
 alias patf.net="ssh -p 10022 pfarrell@patf.net"
+alias patf.local="ssh -p 10022 pfarrell@192.168.0.47"
