@@ -18,3 +18,7 @@ fi
 if [ -f /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh ]; then
   . /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
 fi
+
+if [ -f /usr/local/git/contrib/completion/git-prompt.sh ]; then
+  . /usr/local/git/contrib/completion/git-prompt.sh
+fi
