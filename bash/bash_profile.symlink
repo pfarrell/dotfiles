@@ -13,3 +13,4 @@ if [[ $OSTYPE == darwin* ]]; then
   fi
 fi
 
+export PATH=/usr/local/bin:$PATH
