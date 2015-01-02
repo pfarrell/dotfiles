@@ -109,3 +109,4 @@ fi)'
 # http://stackoverflow.com/questions/8841116/vim-not-recognizing-aliases-when-in-interactive-mode
 shopt -s expand_aliases
 alias be='bundle exec'
+alias egrep='egrep --color'
