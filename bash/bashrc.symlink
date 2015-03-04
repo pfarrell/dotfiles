@@ -133,3 +133,8 @@ export PATH="/usr/local/heroku/bin:$PATH"
 alias notes="open http://localhost:4567"
 alias patf.net="ssh -p 10022 pfarrell@patf.net"
 alias patf.local="ssh -p 10022 pfarrell@192.168.0.47"
+
+if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+  GIT_PROMPT_THEME=Default
+  source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+fi
