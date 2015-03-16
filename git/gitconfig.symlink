@@ -46,3 +46,5 @@
 	ut = ls-files --others --exclude-standard
 [url "https://"]
 	insteadOf = git://
+[ghi]
+	token = !security find-internet-password -a pfarrell -s github.com -l 'ghi token' -w
