@@ -110,3 +110,6 @@ fi)'
 shopt -s expand_aliases
 alias be='bundle exec'
 alias egrep='egrep --color'
+alias diff=colordiff
+alias less='less -R'
+alias more='more -R'
