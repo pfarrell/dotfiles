@@ -33,3 +33,8 @@ This will cause the various .*rc files in your home directory to become symlinks
 New evn.sh and private_env.sh files will be sourced the next time you create a term or login.  *.symlink files will be picked up by a 
 > rake install
 You will not destroy anything by re-running this command.  Also, the rake command shouldn't overwrite any existing files in your home dir without your interactive approval.
+
+#Assumed installs
+* colordiff
+* git
+* hub
