@@ -13,3 +13,9 @@
 [submodule "vim/vim.symlink/bundle/webapi-vim"]
 	path = vim/vim.symlink/bundle/webapi-vim
 	url = https://github.com/mattn/webapi-vim.git
+[submodule "vim/vim.symlink/file-line"]
+	path = vim/vim.symlink/file-line
+	url = https://github.com/bogado/file-line.git
+[submodule "vim/vim.symlink/bundle/file-line"]
+	path = vim/vim.symlink/bundle/file-line
+	url = https://github.com/bogado/file-line.git
