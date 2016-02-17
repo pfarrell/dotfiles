@@ -134,7 +134,27 @@ alias notes="open http://localhost:4567"
 alias patf.net="ssh -p 10022 pfarrell@patf.net"
 alias patf.local="ssh -p 10022 pfarrell@192.168.0.47"
 
-if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
-  GIT_PROMPT_THEME=Default
-  source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
-fi
+alias copy="xsel -i -b"
+alias paste="xsel -o -b"
+
+
+
+#if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+#  GIT_PROMPT_THEME=Default
+#  source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+#fi
+
+export GR_HOME=${HOME}/proj
+export GR_USERNAME=patrick.farrell
+
+for file in $(\ls -1 ${GR_HOME}/engineering/bash/*.sh); do
+    source $file;
+done
+
+#for file in $(\ls -1 ${HOME}/.bash/*.sh); do
+#    source $file;
+#done
+
+export PATH=${GR_HOME}/engineering/bin:${PATH}
+
+gr-aws-environment development
