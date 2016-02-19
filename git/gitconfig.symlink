@@ -1,7 +1,8 @@
 [user]
 	name = Patrick Farrell
-	email = mr.patfarrell@gmail.com
+	email = patrick.farrell@grandrounds.com
 [color]
+  ui = true
 	branch = true
 	diff = true
 	interactive = true
@@ -31,6 +32,8 @@
 	trustExitCode = true
 [push]
 	default = simple
+[pull]
+  default = simple
 [alias]
   co = checkout
   ci = commit
