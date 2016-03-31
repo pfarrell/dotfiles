@@ -113,3 +113,4 @@ alias egrep='egrep --color'
 alias diff=colordiff
 alias less='less -R'
 alias more='more -R'
+alias copy='xsel -ib'
