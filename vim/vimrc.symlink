@@ -17,6 +17,7 @@ set nowrap
 set wildmode=list:longest,full
 set wildmenu
 set number
+filetype indent plugin on
 
 
 " Store swap files in fixed location, not current directory.
@@ -38,8 +39,15 @@ autocmd BufWritePre *.rb :%s/\s\+$//e
 highlight Pmenu ctermbg=238 gui=bold
 
 ""NERDTree
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
+"enables NerdTree
+"autocmd VimEnter * NERDTree
+"moves cursor to open buffer
+"autocmd VimEnter * wincmd p
+"
+"enables NERDTree only if no files are specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
 autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
 
   " Close all open buffers on entering a window if the only
