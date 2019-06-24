@@ -1,39 +1,24 @@
-[user]
-	name = Patrick Farrell
-	email = patrick.farrell@grandrounds.com
-[color]
-  ui = true
-	branch = true
-	diff = true
-	interactive = true
-	pager = true
-	status = true
-[core]
-	filemode = false
-	logallrefupdates = true
-	symlinks = false
-	ignorecase = true
-	hideDotFiles = dotGitOnly
-	autocrlf = false
-	excludesfile = /Users/patrickfarrell/.gitignore_global
 [github]
 	user = pfarrell
-[push]
-	default = simple
-[pull]
-  default = simple
+[user]
+	name = Patrick Farrell
+	email = patrick.farrell@datarobot.com
 [alias]
-  co = checkout
-  ci = commit
-  st = status
-  br = branch
-  pr = pull --rebase
-  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-  type = cat-file -t
-  dump = cat-file -p
-  alias = "!sh -c '[ $# = 2 ] && git config --global alias.\"$1\" \"$2\" && exit 0 || echo \"usage: git alias <new alias> <original command>\" >&2 && exit 1' -"
-  aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
-	up = log @{u}..
-	ut = ls-files --others --exclude-standard
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
+    pr = pull --rebase
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    alias = "!sh -c '[ $# = 2 ] && git config --global alias.\"$1\" \"$2\" && exit 0 || echo \"usage: git alias <new alias> <original command>\" >&2 && exit 1' -"
+    aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
+    up = log @{u}..
+    ut = ls-files --others --exclude-standard
 [rerere]
 	enabled = true
+[push]
+	default = simple
+[core]
+	editor = vim
