@@ -16,20 +16,8 @@
 	hideDotFiles = dotGitOnly
 	autocrlf = false
 	excludesfile = /Users/patrickfarrell/.gitignore_global
-[diff]
-  tool = opendiff
-[difftool]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path = 
-
 [github]
 	user = pfarrell
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [push]
 	default = simple
 [pull]
@@ -47,9 +35,5 @@
   aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
 	up = log @{u}..
 	ut = ls-files --others --exclude-standard
-[url "https://"]
-	insteadOf = git://
-[ghi]
-	token = !security find-internet-password -a pfarrell -s github.com -l 'ghi token' -w
 [rerere]
 	enabled = true
