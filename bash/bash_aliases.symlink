@@ -87,24 +87,18 @@ PathFull="\W"
 NewLine="\n"
 Jobs="\j"
 
+# GIT bash integration
+if [[ -e /usr/lib/git-core/git-sh-prompt ]]; then
+    source /usr/lib/git-core/git-sh-prompt
 
-# This PS1 snippet was adopted from code for MAC/BSD I saw from: http://allancraig.net/index.php?option=com_content&view=article&id=108:ps1-export-command-for-git&catid=45:general&Itemid=96
-# I tweaked it to work on UBUNTU 11.04 & 11.10 plus made it mo' better
-
-export PS1=$IBlack$Time24h$Color_Off'$(git branch &>/dev/null;\
-if [ $? -eq 0 ]; then \
-    echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
-    if [ "$?" -eq "0" ]; then \
-      # @4 - Clean repository - nothing to commit
-      echo "'$Green'"$(__git_ps1 " ☀ %s☀"); \
-    else \
-      # @5 - Changes to working tree
-      echo "'$IRed'"$(__git_ps1 " ☂ %s☂"); \
-    fi) '$BYellow$PathShort$Color_Off'\$ "; \
-else \
-  # @2 - Prompt when not in GIT repo
-  echo " '$Yellow$PathShort$Color_Off'\$ "; \
-fi)'
+    export GIT_PS1_SHOWCOLORHINTS=true
+    export GIT_PS1_SHOWDIRTYSTATE=true
+    export GIT_PS1_SHOWUNTRACKEDFILES=true
+    export GIT_PS1_SHOWUPSTREAM="auto"
+    # PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
+    # use existing PS1 settings
+    PROMPT_COMMAND=$(sed -r 's|^(.+)(\\\$\s*)$|__git_ps1 "\1" "\2"|' <<< $PS1)
+fi
 
 # Allow base aliases to be readable by vim
 # http://stackoverflow.com/questions/8841116/vim-not-recognizing-aliases-when-in-interactive-mode
@@ -122,3 +116,6 @@ alias paste='xsel -o -b'
 alias tsl='tail -f /var/log/syslog'
 alias ll='ls -al'
 alias info='info --vi-keys'
+alias gpg=gpg2
+alias robot3t='QT_AUTO_SCREEN_SCALE_FACTOR="0" ~/opt/robo3t/bin/robo3t'
+
