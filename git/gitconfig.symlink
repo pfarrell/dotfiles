@@ -3,6 +3,7 @@
 [user]
 	name = Patrick Farrell
 	email = patrick.farrell@datarobot.com
+	signingkey = 5310C50D5E106042
 [alias]
     co = checkout
     ci = commit
