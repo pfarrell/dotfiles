@@ -165,8 +165,6 @@ export AWS_DEFAULT_REGION=us-east-1
 export PATH="$PATH:$HOME/.rvm/bin"
 export PYTHONPATH=$HOME/workspace/DataRobot
 
-complete -C /home/patrick.farrell/opt/vault/vault vault
-
 # fun
 
 if hash cowsay; then
