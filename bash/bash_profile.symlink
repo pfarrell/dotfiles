@@ -1,5 +1,5 @@
-for env in $(find ~/.dotfiles -name 'env.sh'); do source $env; done;
-for env in $(find ~/.dotfiles -name 'private_env.sh'); do source $env; done;
+for env in $(find ~/.dotfiles/ -name 'env.sh'); do source $env; done;
+for env in $(find ~/.dotfiles/ -name 'private_env.sh'); do source $env; done;
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 

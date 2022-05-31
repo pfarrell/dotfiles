@@ -117,5 +117,4 @@ alias tsl='tail -f /var/log/syslog'
 alias ll='ls -al'
 alias info='info --vi-keys'
 alias gpg=gpg2
-alias robot3t='QT_AUTO_SCREEN_SCALE_FACTOR="0" ~/opt/robo3t/bin/robo3t'
 

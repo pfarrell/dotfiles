@@ -24,3 +24,5 @@
 [core]
 	editor = vim
   symlinks = true
+[init]
+	defaultBranch = main
