@@ -17,6 +17,7 @@ set nowrap
 set wildmode=list:longest,full
 set wildmenu
 set number
+set spell spelllang=en_us
 filetype indent plugin on
 
 
@@ -40,9 +41,9 @@ highlight Pmenu ctermbg=238 gui=bold
 
 ""NERDTree
 "enables NerdTree
-"autocmd VimEnter * NERDTree
+autocmd VimEnter * NERDTree
 "moves cursor to open buffer
-"autocmd VimEnter * wincmd p
+autocmd VimEnter * wincmd p
 "
 "enables NERDTree only if no files are specified
 autocmd StdinReadPre * let s:std_in=1
