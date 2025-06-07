@@ -3,5 +3,4 @@ for env in $(find ~/.dotfiles/ -name 'private_env.sh'); do source $env; done;
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 export GPG_TTY=$(tty)
