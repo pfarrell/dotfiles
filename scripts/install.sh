@@ -129,10 +129,20 @@ do_uninstall() {
     # Step 2: remove ~/.dotfiles symlink (done last)
     local dotfiles_link="$HOME/.dotfiles"
     if [[ -L "$dotfiles_link" ]] && [[ "$(readlink "$dotfiles_link")" == "$DOTFILES_DIR" ]]; then
-        rm "$dotfiles_link" && echo "  removed $dotfiles_link"
-        local dotfiles_backup="${dotfiles_link}.backup"
-        if [[ -e "$dotfiles_backup" || -L "$dotfiles_backup" ]]; then
-            mv "$dotfiles_backup" "$dotfiles_link" && echo "  restored $dotfiles_backup -> $dotfiles_link"
+        if rm "$dotfiles_link"; then
+            echo "  removed $dotfiles_link"
+            local dotfiles_backup="${dotfiles_link}.backup"
+            if [[ -e "$dotfiles_backup" || -L "$dotfiles_backup" ]]; then
+                if mv "$dotfiles_backup" "$dotfiles_link"; then
+                    echo "  restored $dotfiles_backup -> $dotfiles_link"
+                else
+                    echo "ERROR: failed to restore $dotfiles_backup" >&2
+                    ((errors++))
+                fi
+            fi
+        else
+            echo "ERROR: failed to remove $dotfiles_link" >&2
+            ((errors++))
         fi
     fi
 
