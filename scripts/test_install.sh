@@ -201,7 +201,7 @@ test_install_skips_when_backup_already_exists() {
     local output
     output=$(run_installer install 2>&1)
 
-    assert_path_not_exists "$TMP_HOME/.bashrc.backup2" \
+    assert_path_not_exists "$TMP_HOME/.bashrc.backup.backup" \
         "skip: no new backup created when backup exists"
     # The symlink should NOT have been created (item was skipped)
     local target_is_symlink=false
