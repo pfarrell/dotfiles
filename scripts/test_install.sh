@@ -58,13 +58,13 @@ run_test() {
     shift
     echo ""
     echo "TEST: $name"
-    local tmp_home tmp_dotfiles
-    tmp_home=$(mktemp -d)
-    tmp_dotfiles=$(mktemp -d)
-    # Caller populates tmp_dotfiles and runs assertions
-    # Pass paths as env vars to the test function
-    TMP_HOME="$tmp_home" TMP_DOTFILES="$tmp_dotfiles" "$@"
-    rm -rf "$tmp_home" "$tmp_dotfiles"
+    (
+        local tmp_home tmp_dotfiles
+        tmp_home=$(mktemp -d)
+        tmp_dotfiles=$(mktemp -d)
+        trap 'rm -rf "$tmp_home" "$tmp_dotfiles"' EXIT
+        TMP_HOME="$tmp_home" TMP_DOTFILES="$tmp_dotfiles" "$@"
+    )
 }
 
 run_installer() {
