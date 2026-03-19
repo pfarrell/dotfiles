@@ -5,7 +5,8 @@
 # Counter file for cross-subshell pass/fail tracking
 COUNTER_FILE=$(mktemp)
 echo "0 0" > "$COUNTER_FILE"
-trap 'rm -f "$COUNTER_FILE"' EXIT
+FAILURES_FILE=$(mktemp)
+trap 'rm -f "$COUNTER_FILE" "$FAILURES_FILE"' EXIT
 
 _increment_pass() {
     local pass fail
@@ -14,9 +15,11 @@ _increment_pass() {
 }
 
 _increment_fail() {
+    local msg="$1"
     local pass fail
     read -r pass fail < "$COUNTER_FILE"
     echo "$pass $((fail + 1))" > "$COUNTER_FILE"
+    echo "  - $msg" >> "$FAILURES_FILE"
 }
 
 # --- Harness helpers ---
@@ -30,7 +33,7 @@ assert_equals() {
         echo "  FAIL: $msg"
         echo "    expected: $(printf '%q' "$expected")"
         echo "    actual:   $(printf '%q' "$actual")"
-        _increment_fail
+        _increment_fail "$msg"
     fi
 }
 
@@ -48,7 +51,7 @@ assert_path_exists() {
         _increment_pass
     else
         echo "  FAIL: $msg (path does not exist: $path)"
-        _increment_fail
+        _increment_fail "$msg"
     fi
 }
 
@@ -59,7 +62,7 @@ assert_path_not_exists() {
         _increment_pass
     else
         echo "  FAIL: $msg (path unexpectedly exists: $path)"
-        _increment_fail
+        _increment_fail "$msg"
     fi
 }
 
@@ -114,6 +117,8 @@ echo ""
 read -r PASS FAIL < "$COUNTER_FILE"
 echo "Results: $PASS passed, $FAIL failed"
 if [[ $FAIL -gt 0 ]]; then
+    echo "Failed tests:"
+    cat "$FAILURES_FILE"
     exit 1
 fi
 exit 0

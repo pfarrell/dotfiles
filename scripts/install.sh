@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
+# DOTFILES_DIR and HOME can be overridden via environment variables (used by tests).
 DOTFILES_DIR="${DOTFILES_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
-HOME="${HOME:-$HOME}"
 
 # Derive the $HOME target path for a given *.symlink item.
 # Input:  full path like /path/to/dotfiles/topic/name.symlink
