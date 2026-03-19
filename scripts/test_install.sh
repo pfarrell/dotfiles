@@ -111,6 +111,56 @@ test_derive_target_from_directory() {
 run_test "derive target - file" test_derive_target_from_file
 run_test "derive target - directory" test_derive_target_from_directory
 
+# --- Install: happy path ---
+
+test_install_creates_file_symlink() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+
+    run_installer install
+
+    assert_symlink_target "$TMP_DOTFILES/bash/bashrc.symlink" "$TMP_HOME/.bashrc" \
+        "install: creates file symlink"
+}
+
+test_install_creates_directory_symlink() {
+    mkdir -p "$TMP_DOTFILES/vim/vim.symlink"
+    touch "$TMP_DOTFILES/vim/vim.symlink/vimrc"
+
+    run_installer install
+
+    assert_symlink_target "$TMP_DOTFILES/vim/vim.symlink" "$TMP_HOME/.vim" \
+        "install: creates directory symlink"
+}
+
+test_install_creates_dotfiles_symlink() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+
+    run_installer install
+
+    assert_symlink_target "$TMP_DOTFILES" "$TMP_HOME/.dotfiles" \
+        "install: creates ~/.dotfiles symlink"
+}
+
+test_install_idempotent() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+
+    run_installer install
+    run_installer install  # second run
+
+    assert_symlink_target "$TMP_DOTFILES/bash/bashrc.symlink" "$TMP_HOME/.bashrc" \
+        "install: idempotent — symlink unchanged after second install"
+    assert_path_not_exists "$TMP_HOME/.bashrc.backup" \
+        "install: idempotent — no spurious backup created"
+}
+
+run_test "install - creates file symlink" test_install_creates_file_symlink
+run_test "install - creates directory symlink" test_install_creates_directory_symlink
+run_test "install - creates ~/.dotfiles symlink" test_install_creates_dotfiles_symlink
+run_test "install - idempotent" test_install_idempotent
+
 # --- Results ---
 
 echo ""
