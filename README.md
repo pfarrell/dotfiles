@@ -27,12 +27,20 @@ Key files
 |private_env.sh|Contain things you don't want checked into source control (like passwords or api keys) but which are part of your local environment
 
 # install
-Install with __rake install__.  
-This will cause the various .*rc files in your home directory to become symlinks to the respective *symlink files in each directory
+Install with **`make install`** (or just `make`).
 
-New evn.sh and private_env.sh files will be sourced the next time you create a term or login.  *.symlink files will be picked up by a 
-> rake install
-You will not destroy anything by re-running this command.  Also, the rake command shouldn't overwrite any existing files in your home dir without your interactive approval.
+This symlinks the various `.*rc` files in your home directory to the
+respective `*.symlink` files in each topic directory, and creates
+`~/.dotfiles` pointing to this repo.
+
+Run **`make uninstall`** to remove all managed symlinks and restore
+any backups that were created.
+
+If a file already exists at the target location it will be backed up
+to `~/.filename.backup` before being replaced. Re-running `make install`
+is safe — existing correct symlinks are skipped.
+
+Run **`make test`** to verify the installer works correctly.
 
 #Assumed installs
 * colordiff
