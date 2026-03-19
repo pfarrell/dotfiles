@@ -161,6 +161,61 @@ run_test "install - creates directory symlink" test_install_creates_directory_sy
 run_test "install - creates ~/.dotfiles symlink" test_install_creates_dotfiles_symlink
 run_test "install - idempotent" test_install_idempotent
 
+# --- Install: conflict handling ---
+
+test_install_backs_up_existing_file() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+    echo "original content" > "$TMP_HOME/.bashrc"
+
+    run_installer install
+
+    assert_symlink_target "$TMP_DOTFILES/bash/bashrc.symlink" "$TMP_HOME/.bashrc" \
+        "conflict: symlink created after backup"
+    assert_path_exists "$TMP_HOME/.bashrc.backup" \
+        "conflict: original file backed up"
+    assert_equals "original content" "$(cat "$TMP_HOME/.bashrc.backup")" \
+        "conflict: backup contains original content"
+}
+
+test_install_backs_up_existing_directory() {
+    mkdir -p "$TMP_DOTFILES/vim/vim.symlink"
+    mkdir -p "$TMP_HOME/.vim/autoload"
+
+    run_installer install
+
+    assert_symlink_target "$TMP_DOTFILES/vim/vim.symlink" "$TMP_HOME/.vim" \
+        "conflict dir: symlink created after backup"
+    assert_path_exists "$TMP_HOME/.vim.backup" \
+        "conflict dir: original directory backed up"
+    assert_path_exists "$TMP_HOME/.vim.backup/autoload" \
+        "conflict dir: backup contains original directory contents"
+}
+
+test_install_skips_when_backup_already_exists() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+    echo "original" > "$TMP_HOME/.bashrc"
+    echo "prior backup" > "$TMP_HOME/.bashrc.backup"
+
+    local output
+    output=$(run_installer install 2>&1)
+
+    assert_path_not_exists "$TMP_HOME/.bashrc.backup2" \
+        "skip: no new backup created when backup exists"
+    # The symlink should NOT have been created (item was skipped)
+    local target_is_symlink=false
+    [[ -L "$TMP_HOME/.bashrc" ]] && target_is_symlink=true
+    assert_equals "false" "$target_is_symlink" \
+        "skip: symlink not created when backup already exists"
+    assert_equals "prior backup" "$(cat "$TMP_HOME/.bashrc.backup")" \
+        "skip: existing backup not overwritten"
+}
+
+run_test "install - backs up existing file" test_install_backs_up_existing_file
+run_test "install - backs up existing directory" test_install_backs_up_existing_directory
+run_test "install - skips when backup already exists" test_install_skips_when_backup_already_exists
+
 # --- Results ---
 
 echo ""
