@@ -307,6 +307,46 @@ run_test "uninstall - skips plain file" test_uninstall_skips_plain_file
 run_test "uninstall - removes ~/.dotfiles symlink" test_uninstall_removes_dotfiles_symlink
 run_test "uninstall - restores ~/.dotfiles backup" test_uninstall_restores_dotfiles_backup
 
+# --- Integration: full round-trip ---
+
+test_full_round_trip() {
+    # Set up a dotfiles structure with multiple topics
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+    touch "$TMP_DOTFILES/bash/bash_profile.symlink"
+    mkdir -p "$TMP_DOTFILES/git"
+    touch "$TMP_DOTFILES/git/gitconfig.symlink"
+    mkdir -p "$TMP_DOTFILES/vim/vim.symlink"
+    touch "$TMP_DOTFILES/vim/vim.symlink/vimrc"
+    mkdir -p "$TMP_DOTFILES/aws"  # topic with no .symlink items
+
+    # Pre-existing file that should be backed up
+    echo "my gitconfig" > "$TMP_HOME/.gitconfig"
+
+    # Install
+    run_installer install
+
+    assert_symlink_target "$TMP_DOTFILES/bash/bashrc.symlink"       "$TMP_HOME/.bashrc"       "round-trip: .bashrc linked"
+    assert_symlink_target "$TMP_DOTFILES/bash/bash_profile.symlink" "$TMP_HOME/.bash_profile" "round-trip: .bash_profile linked"
+    assert_symlink_target "$TMP_DOTFILES/git/gitconfig.symlink"     "$TMP_HOME/.gitconfig"    "round-trip: .gitconfig linked"
+    assert_symlink_target "$TMP_DOTFILES/vim/vim.symlink"           "$TMP_HOME/.vim"          "round-trip: .vim dir linked"
+    assert_symlink_target "$TMP_DOTFILES"                           "$TMP_HOME/.dotfiles"     "round-trip: .dotfiles linked"
+    assert_path_exists "$TMP_HOME/.gitconfig.backup"                                          "round-trip: pre-existing .gitconfig backed up"
+    assert_equals "my gitconfig" "$(cat "$TMP_HOME/.gitconfig.backup")"                      "round-trip: backup has correct content"
+
+    # Uninstall
+    run_installer uninstall
+
+    assert_path_not_exists "$TMP_HOME/.bashrc"       "round-trip: .bashrc removed after uninstall"
+    assert_path_not_exists "$TMP_HOME/.bash_profile" "round-trip: .bash_profile removed after uninstall"
+    assert_path_not_exists "$TMP_HOME/.vim"          "round-trip: .vim removed after uninstall"
+    assert_path_not_exists "$TMP_HOME/.dotfiles"     "round-trip: .dotfiles removed after uninstall"
+    assert_path_not_exists "$TMP_HOME/.gitconfig.backup" "round-trip: .gitconfig.backup removed after restore"
+    assert_equals "my gitconfig" "$(cat "$TMP_HOME/.gitconfig")"  "round-trip: .gitconfig restored with correct content"
+}
+
+run_test "full round-trip: install then uninstall" test_full_round_trip
+
 # --- Results ---
 
 echo ""
