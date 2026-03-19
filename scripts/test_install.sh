@@ -2,9 +2,22 @@
 # Test harness for scripts/install.sh
 # Uses temp directories to isolate tests from the real home directory.
 
-PASS=0
-FAIL=0
-ERRORS=()
+# Counter file for cross-subshell pass/fail tracking
+COUNTER_FILE=$(mktemp)
+echo "0 0" > "$COUNTER_FILE"
+trap 'rm -f "$COUNTER_FILE"' EXIT
+
+_increment_pass() {
+    local pass fail
+    read -r pass fail < "$COUNTER_FILE"
+    echo "$((pass + 1)) $fail" > "$COUNTER_FILE"
+}
+
+_increment_fail() {
+    local pass fail
+    read -r pass fail < "$COUNTER_FILE"
+    echo "$pass $((fail + 1))" > "$COUNTER_FILE"
+}
 
 # --- Harness helpers ---
 
@@ -12,13 +25,12 @@ assert_equals() {
     local expected="$1" actual="$2" msg="$3"
     if [[ "$actual" == "$expected" ]]; then
         echo "  PASS: $msg"
-        ((PASS++))
+        _increment_pass
     else
         echo "  FAIL: $msg"
         echo "    expected: $(printf '%q' "$expected")"
         echo "    actual:   $(printf '%q' "$actual")"
-        ((FAIL++))
-        ERRORS+=("$msg")
+        _increment_fail
     fi
 }
 
@@ -33,11 +45,10 @@ assert_path_exists() {
     local path="$1" msg="$2"
     if [[ -e "$path" || -L "$path" ]]; then
         echo "  PASS: $msg"
-        ((PASS++))
+        _increment_pass
     else
         echo "  FAIL: $msg (path does not exist: $path)"
-        ((FAIL++))
-        ERRORS+=("$msg")
+        _increment_fail
     fi
 }
 
@@ -45,11 +56,10 @@ assert_path_not_exists() {
     local path="$1" msg="$2"
     if [[ ! -e "$path" && ! -L "$path" ]]; then
         echo "  PASS: $msg"
-        ((PASS++))
+        _increment_pass
     else
         echo "  FAIL: $msg (path unexpectedly exists: $path)"
-        ((FAIL++))
-        ERRORS+=("$msg")
+        _increment_fail
     fi
 }
 
@@ -76,12 +86,9 @@ run_installer() {
 
 echo "Running dotfiles installer tests..."
 
-# (tests will be added in subsequent tasks)
-
 # --- Name derivation tests ---
 
 test_derive_target_from_file() {
-    # Create a minimal topic/file.symlink structure
     mkdir -p "$TMP_DOTFILES/bash"
     touch "$TMP_DOTFILES/bash/bash_profile.symlink"
 
@@ -101,13 +108,12 @@ test_derive_target_from_directory() {
 run_test "derive target - file" test_derive_target_from_file
 run_test "derive target - directory" test_derive_target_from_directory
 
+# --- Results ---
+
 echo ""
+read -r PASS FAIL < "$COUNTER_FILE"
 echo "Results: $PASS passed, $FAIL failed"
 if [[ $FAIL -gt 0 ]]; then
-    echo "Failed tests:"
-    for err in "${ERRORS[@]}"; do
-        echo "  - $err"
-    done
     exit 1
 fi
 exit 0
