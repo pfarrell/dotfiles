@@ -78,6 +78,29 @@ echo "Running dotfiles installer tests..."
 
 # (tests will be added in subsequent tasks)
 
+# --- Name derivation tests ---
+
+test_derive_target_from_file() {
+    # Create a minimal topic/file.symlink structure
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bash_profile.symlink"
+
+    local output
+    output=$(HOME="$TMP_HOME" DOTFILES_DIR="$TMP_DOTFILES" bash "$(dirname "$0")/install.sh" _test_derive_target "$TMP_DOTFILES/bash/bash_profile.symlink")
+    assert_equals "$TMP_HOME/.bash_profile" "$output" "file: derives correct target path"
+}
+
+test_derive_target_from_directory() {
+    mkdir -p "$TMP_DOTFILES/vim/vim.symlink"
+
+    local output
+    output=$(HOME="$TMP_HOME" DOTFILES_DIR="$TMP_DOTFILES" bash "$(dirname "$0")/install.sh" _test_derive_target "$TMP_DOTFILES/vim/vim.symlink")
+    assert_equals "$TMP_HOME/.vim" "$output" "directory: derives correct target path"
+}
+
+run_test "derive target - file" test_derive_target_from_file
+run_test "derive target - directory" test_derive_target_from_directory
+
 echo ""
 echo "Results: $PASS passed, $FAIL failed"
 if [[ $FAIL -gt 0 ]]; then
