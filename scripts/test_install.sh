@@ -216,6 +216,97 @@ run_test "install - backs up existing file" test_install_backs_up_existing_file
 run_test "install - backs up existing directory" test_install_backs_up_existing_directory
 run_test "install - skips when backup already exists" test_install_skips_when_backup_already_exists
 
+# --- Uninstall ---
+
+test_uninstall_removes_owned_symlink() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+
+    run_installer install
+    run_installer uninstall
+
+    assert_path_not_exists "$TMP_HOME/.bashrc" \
+        "uninstall: removes owned symlink"
+}
+
+test_uninstall_restores_backup() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+    echo "original" > "$TMP_HOME/.bashrc"
+
+    run_installer install   # backs up .bashrc, creates symlink
+    run_installer uninstall # removes symlink, restores backup
+
+    assert_path_not_exists "$TMP_HOME/.bashrc.backup" \
+        "uninstall: backup file removed after restore"
+    local is_symlink=false
+    [[ -L "$TMP_HOME/.bashrc" ]] && is_symlink=true
+    assert_equals "false" "$is_symlink" \
+        "uninstall: restored path is not a symlink"
+    assert_equals "original" "$(cat "$TMP_HOME/.bashrc")" \
+        "uninstall: restored file has original content"
+}
+
+test_uninstall_skips_non_owned_symlink() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+    local other_target
+    other_target=$(mktemp)
+    ln -s "$other_target" "$TMP_HOME/.bashrc"
+
+    run_installer uninstall
+
+    assert_symlink_target "$other_target" "$TMP_HOME/.bashrc" \
+        "uninstall: does not remove symlink pointing elsewhere"
+    rm -f "$other_target"
+}
+
+test_uninstall_skips_plain_file() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+    echo "not a symlink" > "$TMP_HOME/.bashrc"
+
+    run_installer uninstall
+
+    assert_path_exists "$TMP_HOME/.bashrc" \
+        "uninstall: does not remove plain file"
+    assert_equals "not a symlink" "$(cat "$TMP_HOME/.bashrc")" \
+        "uninstall: plain file content unchanged"
+}
+
+test_uninstall_removes_dotfiles_symlink() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+
+    run_installer install
+    run_installer uninstall
+
+    assert_path_not_exists "$TMP_HOME/.dotfiles" \
+        "uninstall: removes ~/.dotfiles symlink"
+}
+
+test_uninstall_restores_dotfiles_backup() {
+    mkdir -p "$TMP_DOTFILES/bash"
+    touch "$TMP_DOTFILES/bash/bashrc.symlink"
+    local prior_dotfiles
+    prior_dotfiles=$(mktemp -d)
+    ln -s "$prior_dotfiles" "$TMP_HOME/.dotfiles"
+
+    run_installer install   # backs up existing ~/.dotfiles, creates new one
+    run_installer uninstall # removes new ~/.dotfiles, restores backup
+
+    assert_symlink_target "$prior_dotfiles" "$TMP_HOME/.dotfiles" \
+        "uninstall: restores backed-up ~/.dotfiles symlink"
+    rm -rf "$prior_dotfiles"
+}
+
+run_test "uninstall - removes owned symlink" test_uninstall_removes_owned_symlink
+run_test "uninstall - restores backup" test_uninstall_restores_backup
+run_test "uninstall - skips non-owned symlink" test_uninstall_skips_non_owned_symlink
+run_test "uninstall - skips plain file" test_uninstall_skips_plain_file
+run_test "uninstall - removes ~/.dotfiles symlink" test_uninstall_removes_dotfiles_symlink
+run_test "uninstall - restores ~/.dotfiles backup" test_uninstall_restores_dotfiles_backup
+
 # --- Results ---
 
 echo ""

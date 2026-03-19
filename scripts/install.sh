@@ -88,6 +88,57 @@ do_install() {
     return $errors
 }
 
+do_uninstall() {
+    local errors=0
+
+    # Step 1: uninstall each *.symlink item
+    while IFS= read -r item; do
+        local target
+        target=$(derive_target "$item")
+
+        # Only act on symlinks we own
+        if [[ ! -L "$target" ]]; then
+            echo "  skipping $target (not a symlink)"
+            continue
+        fi
+        if [[ "$(readlink "$target")" != "$item" ]]; then
+            echo "  skipping $target (not owned by this installer)"
+            continue
+        fi
+
+        # Remove the symlink
+        if ! rm "$target"; then
+            echo "ERROR: failed to remove $target" >&2
+            ((errors++))
+            continue
+        fi
+        echo "  removed $target"
+
+        # Restore backup if one exists
+        local backup="${target}.backup"
+        if [[ -e "$backup" || -L "$backup" ]]; then
+            if mv "$backup" "$target"; then
+                echo "  restored ${backup} -> $target"
+            else
+                echo "ERROR: failed to restore $backup" >&2
+                ((errors++))
+            fi
+        fi
+    done < <(find_symlink_items)
+
+    # Step 2: remove ~/.dotfiles symlink (done last)
+    local dotfiles_link="$HOME/.dotfiles"
+    if [[ -L "$dotfiles_link" ]] && [[ "$(readlink "$dotfiles_link")" == "$DOTFILES_DIR" ]]; then
+        rm "$dotfiles_link" && echo "  removed $dotfiles_link"
+        local dotfiles_backup="${dotfiles_link}.backup"
+        if [[ -e "$dotfiles_backup" || -L "$dotfiles_backup" ]]; then
+            mv "$dotfiles_backup" "$dotfiles_link" && echo "  restored $dotfiles_backup -> $dotfiles_link"
+        fi
+    fi
+
+    return $errors
+}
+
 # --- Subcommand dispatch ---
 
 cmd="${1:-}"
@@ -98,7 +149,8 @@ case "$cmd" in
         exit $?
         ;;
     uninstall)
-        echo "uninstall: not yet implemented"
+        do_uninstall
+        exit $?
         ;;
     _test_derive_target)
         derive_target "$2"
