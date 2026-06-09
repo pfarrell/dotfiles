@@ -42,6 +42,8 @@ is safe — existing correct symlinks are skipped.
 
 Run **`make test`** to verify the installer works correctly.
 
+Run **`make help`** to list all available targets.
+
 #Assumed installs
 * colordiff
 * git
